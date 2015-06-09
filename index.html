@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="./lightbox.css"/>
+  <script src="./jquery-1.11.3.min.js"></script>
+</head>
+<body>
+
+  <div class="gallery">
+    <div class="gallery__item">
+      <a href="./sample-001.jpg" class="lightbox-trigger"><img src="./sample-001-small.jpg" /></a>
+    </div>
+    <div class="gallery__item">
+      <a href="./sample-002.jpg" class="lightbox-trigger"><img src="./sample-002-small.jpg" /></a>
+    </div>
+    <div class="gallery__item">
+      <a href="./sample-003.jpg" class="lightbox-trigger"><img src="./sample-003-small.jpg" /></a>
+    </div>
+  </div>
+
+<script>
+  jQuery(document).ready(function($) {
+
+    // 予め用意したアニメーションを設定
+    var anim = 'animation2';
+
+    // 画像のサムネイルがクリックされたとき、lightboxを表示する処理
+    $('.lightbox-trigger').on('click', function(e) {
+      e.preventDefault();
+      var img_href = $(this).attr("href");
+      if ( $('#lightbox').length > 0 ) {
+        // #lightboxコンテナがあれば、その中の#lightbox-contentを置き換える
+        $('#lightbox-content').html('<img src="' + img_href + '" />');
+
+        // 設定した anim クラスを付けつつ表示します
+        $('#lightbox').addClass( anim ).show();
+      }
+      else {
+        // lightboxコンテナが無ければ、追加する
+        var lightbox =
+                '<div id="lightbox" class="lightbox ' + anim + '">' +
+                '<p>閉じる</p>' +
+                '<div id="lightbox-content">' +
+                '<img src="' + img_href +'" />' +
+                '</div>' +
+                '</div>';
+
+        $('body').append(lightbox);
+      }
+    });
+
+    // 画面のどこかがクリックされたら、開かれているlightboxを閉じる
+    $('body').on('click', '#lightbox', function() {
+      $(this).removeClass( anim ).hide();
+    });
+
+  });
+</script>
+
+</body>
+</html>
